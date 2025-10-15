@@ -1,0 +1,364 @@
+/* ===== Base Layout ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+    min-height: 100vh;
+    padding: 10px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .container {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 10px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* ===== Header Section ===== */
+  .header-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px 0;
+    flex-shrink: 0;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  
+   /* ===== Dropdown ===== */
+   .dropdown {
+     margin-right: 30px;
+   }
+   
+   .dropdown .btn {
+     background-color: #303030;
+     border-color: #444;
+     color: #fff;
+     font-weight: 500;
+     width: 300px; 
+     text-align: left;
+     position: relative;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     padding: 8px 12px;
+   }
+   
+   .dropdown .btn:hover {
+     background-color: #444;
+     border-color: #e50914;
+     color: #fff;
+   }
+
+   .dropdown .btn:focus,
+   .dropdown .btn:active,
+   .dropdown .btn.show {
+     background-color: #444;
+     border-color: #e50914;
+     color: #fff;
+     box-shadow: 0 0 0 0.2rem rgba(229, 9, 20, 0.25);
+   }
+   
+   .dropdown-arrow {
+     font-size: 12px;
+     color: #aaa;
+     transition: transform 0.3s ease;
+     flex-shrink: 0;
+     margin-left: 8px;
+   }
+   
+   .dropdown .btn[aria-expanded="true"] .dropdown-arrow {
+     transform: rotate(180deg);
+   }
+  
+  .dropdown-menu {
+    background-color: #303030;
+    border: 1px solid #444;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    max-height: 700px;
+    overflow-y: auto;
+    width: 200px;
+  }
+  
+  
+  .dropdown-item:hover {
+    background-color: #444;
+    color: #fff;
+  }
+
+
+  /* Checkbox Styling */
+  .form-check-input:checked {
+    background-color: #e50914;
+    border-color: #e50914;
+  }
+  
+  .form-check-input:focus {
+    border-color: #e50914;
+    box-shadow: 0 0 0 0.2rem rgba(229, 9, 20, 0.25);
+  }
+  
+  .form-check-label {
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .form-check:hover .form-check-label {
+    color: #e50914;
+  }
+  
+  .form-check:hover .form-check-input:not(:checked) {
+    border-color: #e50914;
+  }
+  
+  /* ===== Visualization Section ===== */
+  .visualization-section {
+    background-color: #111;
+    border-radius: 8px;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  
+  .slider-section {
+    margin-bottom: 5px;
+    padding: 5px;
+    height: 170px;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    overflow-x: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  #slider-chart {
+    width: 100%;
+    max-width: 100%;
+    height: 160px;
+    background-color: transparent;
+    display: block;
+  }
+
+  .main-chart-section {
+    overflow-x: visible;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  #main-chart {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    background-color: transparent;
+    display: block;
+    flex: 1;
+  }
+  
+  /* SVG Styles */
+  svg {
+    background-color: transparent;
+  }
+
+  .axis {
+    color: #ffffff;
+  }
+
+  .axis text {
+    fill: #cccccc;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .axis line,
+  .axis path {
+    stroke: #444444;
+  }
+
+  .axis .domain {
+    stroke: #444444;
+  }
+
+  /* Netflix Red Elements */
+  .netflix-red {
+    fill: #e50914;
+    stroke: #e50914;
+  }
+
+  .netflix-red-light {
+    fill: #ff6b6b;
+  }
+
+  .netflix-red-dark {
+    fill: #b8070f;
+  }
+
+  /* Brush/Slider Styles */
+  .brush .selection {
+    fill: #e50914;
+    fill-opacity: 0.3;
+    stroke: #e50914;
+    stroke-width: 2px;
+  }
+
+  .brush .handle {
+    fill: #e50914;
+    stroke: #ffffff;
+    stroke-width: 2px;
+  }
+
+  .brush .handle:hover {
+    fill: #ff6b6b;
+  }
+
+  /* Data Points */
+  .dot {
+    fill: #e50914;
+    stroke: #ffffff;
+    stroke-width: 1px;
+    opacity: 0.8;
+  }
+
+  .dot:hover {
+    fill: #ff6b6b;
+    stroke: #e50914;
+    stroke-width: 2px;
+    opacity: 1;
+  }
+
+  /* Trend Line */
+  .trend-line {
+    fill: none;
+    stroke: #e50914;
+    stroke-width: 3px;
+    opacity: 0.9;
+  }
+  
+  /* ===== Tooltip ===== */
+  .tooltip {
+    position: absolute;
+    background-color: #303030;
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid #444;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 1000;
+  }
+  
+  .tooltip.visible {
+    opacity: 1;
+  }
+  
+  /* ===== Responsive ===== */
+  @media (max-width: 1200px) {
+    .container {
+      padding: 5px;
+    }
+    
+    .header-section {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    
+    .title {
+      font-size: 20px;
+    }
+    
+    .dropdown .btn {
+      width: 250px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    body {
+      padding: 5px;
+    }
+    
+    .container {
+      padding: 5px;
+    }
+    
+    .header-section {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    
+    .title {
+      font-size: 18px;
+    }
+    
+    .dropdown .btn {
+      width: 200px;
+    }
+    
+    .visualization-section {
+      padding: 10px;
+    }
+    
+    .slider-section {
+      height: 140px;
+    }
+    
+    #slider-chart {
+      height: 130px;
+    }
+    
+    #main-chart {
+      min-height: 300px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .title {
+      font-size: 16px;
+    }
+    
+    .dropdown .btn {
+      width: 180px;
+    }
+    
+    .slider-section {
+      height: 120px;
+    }
+    
+    #slider-chart {
+      height: 110px;
+    }
+    
+    #main-chart {
+      min-height: 250px;
+    }
+  }

@@ -1,18 +1,50 @@
 let myChart;
+let myTimeline;
 
-// We will load the data asynchronously using a promise
-d3.csv("data/your-data-file.csv").then(data => {
+loadData();
 
-    // Data processing, e.g., converting strings to numbers
-    data.forEach(d => {
-        // d.someValue = +d.someValue; // Example
-    });
+function loadData() {
+    // Load data asynchronously
+    d3.csv("imdb_top_1000.csv").then(data => {
 
-    console.log("Data loaded:", data);
+        // Data processing: convert strings to numbers
+        data = data.map(d => {
+            // Remove commas from Gross and convert to number
+            d.Gross = d.Gross ? +d.Gross.replace(/,/g, '') : 0;
 
-    // Create a new instance of our chart
-    myChart = new InteractiveChart('#vis-container', data);
+            // Convert other numeric fields with validation
+            d.Released_Year = +d.Released_Year;
+            d.IMDB_Rating = +d.IMDB_Rating;
+            d.Meta_score = d.Meta_score ? +d.Meta_score : null;
+            d.No_of_Votes = +d.No_of_Votes;
 
-}).catch(error => {
-    console.error("Error loading the data:", error);
-});
+            // Parse Runtime (remove " min" and convert to number)
+            d.Runtime = +d.Runtime.replace(' min', '');
+
+            return d;
+        })
+            // Filter out invalid data
+            .filter(d => {
+                return d.Gross > 0 &&
+                    !isNaN(d.Released_Year) &&
+                    d.Released_Year > 1900 &&
+                    d.Released_Year < 2030 &&
+                    !isNaN(d.IMDB_Rating) &&
+                    !isNaN(d.No_of_Votes);
+            });
+
+        console.log("Data loaded:", data.length, "movies with valid gross data");
+
+        // Create main visualization
+        myChart = new plotChart(null, data);
+
+        // Create timeline slider with callback
+        myTimeline = new Timeline("slider-chart", data, function (yearRange) {
+            // Callback function: when brush changes, update the main chart
+            myChart.updateYearRange(yearRange);
+        });
+
+    }).catch(error => {
+        console.error("Error loading data:", error);
+    })
+}
