@@ -86,8 +86,8 @@ class DropdownMenu {
             selectAllCheckbox.property("checked", false);
         }
 
-        // Only update charts if already initialized
-        if (vis.isInitialized && vis.wrangleData) {
+        // Update charts - wrangleData handles initialization state internally
+        if (vis.wrangleData) {
             vis.wrangleData();
         }
     }
