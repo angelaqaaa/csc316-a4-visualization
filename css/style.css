@@ -278,7 +278,32 @@
   .tooltip.visible {
     opacity: 1;
   }
-  
+
+  /* ===== Footer / Data Source ===== */
+  .data-source {
+    text-align: center;
+    padding: 20px 10px;
+    margin-top: 20px;
+    border-top: 1px solid #333;
+    font-size: 12px;
+    color: #888;
+  }
+
+  .data-source p {
+    margin: 5px 0;
+  }
+
+  .data-source a {
+    color: #e50914;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .data-source a:hover {
+    color: #ff6b6b;
+    text-decoration: underline;
+  }
+
   /* ===== Responsive ===== */
   @media (max-width: 1200px) {
     .container {
