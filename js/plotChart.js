@@ -221,10 +221,11 @@ class plotChart {
         let circles = vis.svg.selectAll(".dot")
             .data(vis.displayData, d => d.Series_Title);
 
-        // Exit
+        // Exit - interrupt any ongoing transitions and fade out
         circles.exit()
-            .transition()
-            .duration(500)
+            .interrupt() // Stop any ongoing transitions
+            .transition("exit")
+            .duration(300)
             .attr("opacity", 0)
             .remove();
 
@@ -237,7 +238,7 @@ class plotChart {
             .attr("r", 5)
             .attr("opacity", 0);
 
-        // Merge and update
+        // Merge and update - interrupt ongoing transitions before updating
         enterCircles.merge(circles)
             .on("mouseover", function (event, d) {
                 d3.select("#tooltip")
@@ -269,8 +270,9 @@ class plotChart {
                     .attr("r", 5)
                     .style("stroke", "#ffffff");
             })
-            .transition()
-            .duration(500)
+            .interrupt() // Stop any ongoing transitions
+            .transition("update")
+            .duration(300)
             .attr("cx", d => vis.xScale(d.Released_Year))
             .attr("cy", d => vis.yScale(d.Gross))
             .attr("r", 5)
