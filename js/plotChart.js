@@ -108,6 +108,11 @@ class plotChart {
         vis.yScale = d3.scaleLinear()
             .range([vis.height, 0]);
 
+        // Color scale for IMDB ratings
+        vis.colorScale = d3.scaleThreshold()
+            .domain([8])  // threshold at rating 8
+            .range(["#ffb81eff", "#ff2919ff"]);  // red for low, green for high
+
         // Axes
         vis.xAxis = d3.axisBottom(vis.xScale)
             .tickFormat(d3.format("d"));
@@ -145,6 +150,38 @@ class plotChart {
             .style("font-weight", "500")
             .style("fill", "#cccccc")
             .text("Gross Revenue");
+
+        // ===== Add Color Legend =====
+        // Legend position: top right of y-axis
+        const legendSpacing = 28;
+
+        const legendData = [
+            { color: "#ff2919ff", label: "High (≥8) IMDB Rating" },
+            { color: "#ffb81eff", label: "Low (<8) IMDB Rating" }
+        ];
+
+        const legend = vis.svg.append("g")
+            .attr("class", "legend")
+            .attr("transform", `translate(80,0)`);
+
+        legend.selectAll("circle")
+            .data(legendData)
+            .enter()
+            .append("circle")
+            .attr("cx", 0)
+            .attr("cy", (d, i) => i * legendSpacing)
+            .attr("r", 6)
+            .attr("fill", d => d.color)
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 1.5);
+
+        legend.selectAll("text")
+            .data(legendData)
+            .enter()
+            .append("text")
+            .attr("x", 12)
+            .attr("y", (d, i) => i * legendSpacing + 4)
+            .text(d => d.label);
     }
 
 
@@ -181,6 +218,9 @@ class plotChart {
 
         // Mark as initialized after first data processing
         vis.isInitialized = true;
+
+        // Sort data by IMDB Rating so higher rated movies are drawn last (appear on top)
+        vis.displayData.sort((a, b) => a.IMDB_Rating - b.IMDB_Rating);
 
         vis.updateVis();
     }
@@ -236,6 +276,7 @@ class plotChart {
             .attr("cx", d => vis.xScale(d.Released_Year))
             .attr("cy", d => vis.yScale(d.Gross))
             .attr("r", 5)
+            .attr("fill", d => vis.colorScale(d.IMDB_Rating))
             .attr("opacity", 0);
 
         // Merge and update - interrupt ongoing transitions before updating
@@ -244,12 +285,22 @@ class plotChart {
                 d3.select("#tooltip")
                     .classed("visible", true)
                     .html(`
-                        <strong>${d.Series_Title}</strong><br/>
-                        Year: ${d.Released_Year}<br/>
-                        IMDB: ${d.IMDB_Rating}/10<br/>
-                        Gross: $${(d.Gross / 1000000).toFixed(1)}M<br/>
-                        Genre: ${d.Genre}<br/>
-                        Director: ${d.Director}
+                        <div class="tooltip-content">
+                            <div class="movie-info">
+                                <strong>${d.Series_Title}</strong><br/>
+                                Year: ${d.Released_Year}<br/>
+                                IMDB: ${d.IMDB_Rating}/10<br/>
+                                Gross: $${(d.Gross / 1000000).toFixed(1)}M<br/>
+                                Genre: ${d.Genre}<br/>
+                                Director: ${d.Director}
+                            </div>
+                            <div class="movie-poster">
+                                <img src="${d.Poster_Link}" 
+                                     alt="${d.Series_Title} Poster" 
+                                     onerror="this.style.display='none'"
+                                     class="poster-image">
+                            </div>
+                        </div>
                     `)
                     .style("left", (event.pageX + 15) + "px")
                     .style("top", (event.pageY - 28) + "px");
@@ -258,6 +309,7 @@ class plotChart {
                     .transition()
                     .duration(200)
                     .attr("r", 8)
+                    .attr("fill", d => vis.colorScale(d.IMDB_Rating))
                     .style("stroke", "#e50914")
                     .style("stroke-width", "2px");
             })
@@ -268,6 +320,7 @@ class plotChart {
                     .transition()
                     .duration(200)
                     .attr("r", 5)
+                    .attr("fill", d => vis.colorScale(d.IMDB_Rating))
                     .style("stroke", "#ffffff");
             })
             .interrupt() // Stop any ongoing transitions
@@ -276,6 +329,7 @@ class plotChart {
             .attr("cx", d => vis.xScale(d.Released_Year))
             .attr("cy", d => vis.yScale(d.Gross))
             .attr("r", 5)
+            .attr("fill", d => vis.colorScale(d.IMDB_Rating))
             .attr("opacity", 0.8);
     }
 }
