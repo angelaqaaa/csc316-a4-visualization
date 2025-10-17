@@ -274,10 +274,40 @@
     pointer-events: none;
     transition: opacity 0.2s ease;
     z-index: 1000;
+    max-width: 400px;
   }
   
   .tooltip.visible {
     opacity: 1;
+  }
+  
+  .tooltip-content {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  
+  .movie-info {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .movie-poster {
+    flex-shrink: 0;
+  }
+  
+  .poster-image {
+    width: 80px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #444;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .poster-image:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
   }
 
   /* ===== Footer / Data Source ===== */
@@ -304,7 +334,6 @@
     color: #ff6b6b;
     text-decoration: underline;
   }
-
   /* ===== Responsive ===== */
   @media (max-width: 1200px) {
     .container {

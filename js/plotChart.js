@@ -253,12 +253,22 @@ class plotChart {
                 d3.select("#tooltip")
                     .classed("visible", true)
                     .html(`
-                        <strong>${d.Series_Title}</strong><br/>
-                        Year: ${d.Released_Year}<br/>
-                        IMDB: ${d.IMDB_Rating}/10<br/>
-                        Gross: $${(d.Gross / 1000000).toFixed(1)}M<br/>
-                        Genre: ${d.Genre}<br/>
-                        Director: ${d.Director}
+                        <div class="tooltip-content">
+                            <div class="movie-info">
+                                <strong>${d.Series_Title}</strong><br/>
+                                Year: ${d.Released_Year}<br/>
+                                IMDB: ${d.IMDB_Rating}/10<br/>
+                                Gross: $${(d.Gross / 1000000).toFixed(1)}M<br/>
+                                Genre: ${d.Genre}<br/>
+                                Director: ${d.Director}
+                            </div>
+                            <div class="movie-poster">
+                                <img src="${d.Poster_Link}" 
+                                     alt="${d.Series_Title} Poster" 
+                                     onerror="this.style.display='none'"
+                                     class="poster-image">
+                            </div>
+                        </div>
                     `)
                     .style("left", (event.pageX + 15) + "px")
                     .style("top", (event.pageY - 28) + "px");
