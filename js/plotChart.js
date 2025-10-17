@@ -107,6 +107,10 @@ class plotChart {
 
         vis.yScale = d3.scaleLinear()
             .range([vis.height, 0]);
+        
+        vis.rScale = d3.scaleLinear()
+            .domain(d3.extent(vis.data, d => d.IMDB_Rating))
+            .range([4, 10]);
 
         // Axes
         vis.xAxis = d3.axisBottom(vis.xScale)
@@ -181,6 +185,8 @@ class plotChart {
 
         // Mark as initialized after first data processing
         vis.isInitialized = true;
+        // Sort by IMDB_Rating descending
+        vis.displayData.sort((a, b) => b.IMDB_Rating - a.IMDB_Rating);
 
         vis.updateVis();
     }
@@ -234,7 +240,7 @@ class plotChart {
             .attr("class", "dot")
             .attr("cx", d => vis.xScale(d.Released_Year))
             .attr("cy", d => vis.yScale(d.Gross))
-            .attr("r", 5)
+            .attr("r", d => vis.rScale(d.IMDB_Rating)) // Use rScale for radius based on IMDB_Rating
             .attr("opacity", 0);
 
         // Merge and update
@@ -256,7 +262,7 @@ class plotChart {
                 d3.select(this)
                     .transition()
                     .duration(200)
-                    .attr("r", 8)
+                    .attr("r", d => vis.rScale(d.IMDB_Rating))
                     .style("stroke", "#e50914")
                     .style("stroke-width", "2px");
             })
@@ -266,12 +272,12 @@ class plotChart {
                 d3.select(this)
                     .transition()
                     .duration(200)
-                    .attr("r", 5)
+                    .attr("r", d => vis.rScale(d.IMDB_Rating))
                     .style("stroke", "#ffffff");
             })
             .attr("cx", d => vis.xScale(d.Released_Year))
             .attr("cy", d => vis.yScale(d.Gross))
-            .attr("r", 5)
+            .attr("r", d => vis.rScale(d.IMDB_Rating))
             .attr("opacity", 0.8);
     }
 }
