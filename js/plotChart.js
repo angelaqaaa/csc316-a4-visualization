@@ -19,7 +19,7 @@ class plotChart {
         vis.initMainChart();
 
         // Setup dropdown menu
-        vis.DropdownMenu = new DropdownMenu(vis.parentElement, vis.data, vis.genres, vis.selectedGenres, vis.isInitialized, vis.wrangleData);
+        vis.DropdownMenu = new DropdownMenu(vis.parentElement, vis.data, vis.genres, vis.selectedGenres, vis.isInitialized, vis.wrangleData.bind(vis));
         vis.DropdownMenu.initVis();
 
         // Initial data processing - show all movies by default
@@ -269,6 +269,8 @@ class plotChart {
                     .attr("r", 5)
                     .style("stroke", "#ffffff");
             })
+            .transition()
+            .duration(500)
             .attr("cx", d => vis.xScale(d.Released_Year))
             .attr("cy", d => vis.yScale(d.Gross))
             .attr("r", 5)
