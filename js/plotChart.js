@@ -323,5 +323,138 @@ class plotChart {
             .attr("r", 5)
             .attr("fill", d => vis.colorScale(d.IMDB_Rating))
             .attr("opacity", 0.8);
+
+        // Add annotations for insights
+        vis.drawAnnotations();
+    }
+
+    drawAnnotations() {
+        let vis = this;
+
+        // Remove old annotations
+        vis.svg.selectAll(".annotation-group").remove();
+
+        if (vis.displayData.length === 0) return;
+
+        // Create annotation group
+        let annotationGroup = vis.svg.append("g")
+            .attr("class", "annotation-group");
+
+        // Find highest grossing movie
+        let highestGrossing = vis.displayData.reduce((max, d) =>
+            d.Gross > max.Gross ? d : max
+        );
+
+        // Add annotation for highest grossing movie
+        if (highestGrossing) {
+            let x = vis.xScale(highestGrossing.Released_Year);
+            let y = vis.yScale(highestGrossing.Gross);
+
+            // Add connector line
+            annotationGroup.append("line")
+                .attr("class", "annotation-line")
+                .attr("x1", x)
+                .attr("y1", y - 10)
+                .attr("x2", x)
+                .attr("y2", y - 30)
+                .style("stroke", "#e50914")
+                .style("stroke-width", 2)
+                .style("opacity", 0)
+                .transition()
+                .duration(500)
+                .delay(400)
+                .style("opacity", 0.9);
+
+            // Add label
+            annotationGroup.append("text")
+                .attr("class", "annotation-label")
+                .attr("x", x)
+                .attr("y", y - 35)
+                .style("text-anchor", "middle")
+                .style("fill", "#e50914")
+                .style("font-weight", "bold")
+                .style("font-size", "11px")
+                .style("opacity", 0)
+                .text(`★ Highest Grossing: ${highestGrossing.Series_Title}`)
+                .transition()
+                .duration(500)
+                .delay(400)
+                .style("opacity", 1);
+
+            // Add subtle background for readability
+            let labelBBox = annotationGroup.select(".annotation-label").node().getBBox();
+            annotationGroup.insert("rect", ".annotation-label")
+                .attr("x", labelBBox.x - 3)
+                .attr("y", labelBBox.y - 1)
+                .attr("width", labelBBox.width + 6)
+                .attr("height", labelBBox.height + 2)
+                .style("fill", "#111")
+                .style("opacity", 0)
+                .transition()
+                .duration(500)
+                .delay(400)
+                .style("opacity", 0.85);
+        }
+
+        // Find highest rated movie with significant gross (top 20% of revenue)
+        let grossThreshold = d3.quantile(vis.displayData.map(d => d.Gross).sort((a, b) => a - b), 0.8);
+        let highRatedBlockbusters = vis.displayData.filter(d => d.Gross >= grossThreshold);
+
+        if (highRatedBlockbusters.length > 0) {
+            let bestBlockbuster = highRatedBlockbusters.reduce((max, d) =>
+                d.IMDB_Rating > max.IMDB_Rating ? d : max
+            );
+
+            // Only show if different from highest grossing
+            if (bestBlockbuster.Series_Title !== highestGrossing.Series_Title) {
+                let x = vis.xScale(bestBlockbuster.Released_Year);
+                let y = vis.yScale(bestBlockbuster.Gross);
+
+                // Add connector line
+                annotationGroup.append("line")
+                    .attr("class", "annotation-line")
+                    .attr("x1", x)
+                    .attr("y1", y - 10)
+                    .attr("x2", x)
+                    .attr("y2", y - 30)
+                    .style("stroke", "#ff2919")
+                    .style("stroke-width", 2)
+                    .style("opacity", 0)
+                    .transition()
+                    .duration(500)
+                    .delay(600)
+                    .style("opacity", 0.9);
+
+                // Add label
+                annotationGroup.append("text")
+                    .attr("class", "annotation-label")
+                    .attr("x", x)
+                    .attr("y", y - 35)
+                    .style("text-anchor", "middle")
+                    .style("fill", "#ff2919")
+                    .style("font-weight", "bold")
+                    .style("font-size", "11px")
+                    .style("opacity", 0)
+                    .text(`⭐ Top Rated Blockbuster (${bestBlockbuster.IMDB_Rating}/10)`)
+                    .transition()
+                    .duration(500)
+                    .delay(600)
+                    .style("opacity", 1);
+
+                // Add background
+                let labelBBox = annotationGroup.selectAll(".annotation-label").nodes()[1].getBBox();
+                annotationGroup.insert("rect", ".annotation-label:nth-of-type(2)")
+                    .attr("x", labelBBox.x - 3)
+                    .attr("y", labelBBox.y - 1)
+                    .attr("width", labelBBox.width + 6)
+                    .attr("height", labelBBox.height + 2)
+                    .style("fill", "#111")
+                    .style("opacity", 0)
+                    .transition()
+                    .duration(500)
+                    .delay(600)
+                    .style("opacity", 0.85);
+            }
+        }
     }
 }

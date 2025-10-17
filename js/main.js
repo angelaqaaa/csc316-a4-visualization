@@ -5,7 +5,7 @@ loadData();
 
 function loadData() {
     // Load data asynchronously
-    d3.csv("imdb_top_1000.csv").then(data => {
+    d3.csv("data/imdb_top_1000.csv").then(data => {
 
         // Data processing: convert strings to numbers
         data = data.map(d => {

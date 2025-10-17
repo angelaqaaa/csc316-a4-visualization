@@ -345,7 +345,21 @@
     stroke-width: 3px;
     opacity: 0.9;
   }
-  
+
+  /* ===== Annotations ===== */
+  .annotation-group {
+    pointer-events: none;
+  }
+
+  .annotation-label {
+    font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  .annotation-line {
+    pointer-events: none;
+  }
+
   /* ===== Tooltip ===== */
   .tooltip {
     position: absolute;
