@@ -108,6 +108,11 @@ class plotChart {
         vis.yScale = d3.scaleLinear()
             .range([vis.height, 0]);
 
+        // Color scale for IMDB ratings
+        vis.colorScale = d3.scaleThreshold()
+            .domain([8])  // threshold at rating 8
+            .range(["#ffb81eff", "#ff2919ff"]);  // red for low, green for high
+
         // Axes
         vis.xAxis = d3.axisBottom(vis.xScale)
             .tickFormat(d3.format("d"));
@@ -182,6 +187,9 @@ class plotChart {
         // Mark as initialized after first data processing
         vis.isInitialized = true;
 
+        // Sort data by IMDB Rating so higher rated movies are drawn last (appear on top)
+        vis.displayData.sort((a, b) => a.IMDB_Rating - b.IMDB_Rating);
+
         vis.updateVis();
     }
 
@@ -236,6 +244,7 @@ class plotChart {
             .attr("cx", d => vis.xScale(d.Released_Year))
             .attr("cy", d => vis.yScale(d.Gross))
             .attr("r", 5)
+            .attr("fill", d => vis.colorScale(d.IMDB_Rating))
             .attr("opacity", 0);
 
         // Merge and update - interrupt ongoing transitions before updating
@@ -258,6 +267,7 @@ class plotChart {
                     .transition()
                     .duration(200)
                     .attr("r", 8)
+                    .attr("fill", d => vis.colorScale(d.IMDB_Rating))
                     .style("stroke", "#e50914")
                     .style("stroke-width", "2px");
             })
@@ -268,6 +278,7 @@ class plotChart {
                     .transition()
                     .duration(200)
                     .attr("r", 5)
+                    .attr("fill", d => vis.colorScale(d.IMDB_Rating))
                     .style("stroke", "#ffffff");
             })
             .interrupt() // Stop any ongoing transitions
@@ -276,6 +287,7 @@ class plotChart {
             .attr("cx", d => vis.xScale(d.Released_Year))
             .attr("cy", d => vis.yScale(d.Gross))
             .attr("r", 5)
+            .attr("fill", d => vis.colorScale(d.IMDB_Rating))
             .attr("opacity", 0.8);
     }
 }
