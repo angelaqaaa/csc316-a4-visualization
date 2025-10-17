@@ -29,16 +29,54 @@
   /* ===== Header Section ===== */
   .header-section {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 15px;
     margin-bottom: 15px;
     padding: 10px 0;
     flex-shrink: 0;
   }
-  
+
+  .controls-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .title-section {
+    text-align: center;
+  }
+
   .title {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 600;
     letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    color: #e50914;
+  }
+
+  .subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    color: #aaa;
+    margin: 0;
+  }
+
+  .reset-btn {
+    background-color: transparent;
+    border-color: #e50914;
+    color: #e50914;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .reset-btn:hover {
+    background-color: #e50914;
+    border-color: #e50914;
+    color: #fff;
+  }
+
+  .reset-btn span {
+    font-size: 16px;
   }
   
    /* ===== Dropdown ===== */
@@ -129,7 +167,56 @@
   .form-check:hover .form-check-input:not(:checked) {
     border-color: #e50914;
   }
-  
+
+  /* ===== Instructions ===== */
+  .instructions {
+    background-color: #1a1a1a;
+    border-left: 3px solid #e50914;
+    padding: 12px 20px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+  }
+
+  .instructions p {
+    margin: 0;
+    font-size: 14px;
+    color: #ccc;
+  }
+
+  .instructions strong {
+    color: #fff;
+  }
+
+  /* ===== Statistics Panel ===== */
+  .stats-panel {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    background-color: #1a1a1a;
+    padding: 12px 20px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: #888;
+    font-weight: 500;
+  }
+
+  .stat-value {
+    font-size: 15px;
+    color: #e50914;
+    font-weight: 600;
+  }
+
   /* ===== Visualization Section ===== */
   .visualization-section {
     background-color: #111;
