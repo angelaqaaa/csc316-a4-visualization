@@ -203,6 +203,12 @@
     stroke: #444444;
   }
 
+  .legend text {
+    fill: #cccccc;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
   /* Netflix Red Elements */
   .netflix-red {
     fill: #e50914;

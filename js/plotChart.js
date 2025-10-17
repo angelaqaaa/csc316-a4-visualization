@@ -150,6 +150,38 @@ class plotChart {
             .style("font-weight", "500")
             .style("fill", "#cccccc")
             .text("Gross Revenue");
+
+        // ===== Add Color Legend =====
+        // Legend position: top right of y-axis
+        const legendSpacing = 28;
+
+        const legendData = [
+            { color: "#ff2919ff", label: "High (≥8) IMDB Rating" },
+            { color: "#ffb81eff", label: "Low (<8) IMDB Rating" }
+        ];
+
+        const legend = vis.svg.append("g")
+            .attr("class", "legend")
+            .attr("transform", `translate(80,0)`);
+
+        legend.selectAll("circle")
+            .data(legendData)
+            .enter()
+            .append("circle")
+            .attr("cx", 0)
+            .attr("cy", (d, i) => i * legendSpacing)
+            .attr("r", 6)
+            .attr("fill", d => d.color)
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 1.5);
+
+        legend.selectAll("text")
+            .data(legendData)
+            .enter()
+            .append("text")
+            .attr("x", 12)
+            .attr("y", (d, i) => i * legendSpacing + 4)
+            .text(d => d.label);
     }
 
 
