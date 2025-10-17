@@ -190,7 +190,31 @@ class plotChart {
         // Sort data by IMDB Rating so higher rated movies are drawn last (appear on top)
         vis.displayData.sort((a, b) => a.IMDB_Rating - b.IMDB_Rating);
 
+        // Update statistics
+        vis.updateStatistics();
+
         vis.updateVis();
+    }
+
+    updateStatistics() {
+        let vis = this;
+
+        // Update movie count
+        d3.select("#movie-count").text(vis.displayData.length);
+
+        // Calculate and update average gross
+        if (vis.displayData.length > 0) {
+            let avgGross = d3.mean(vis.displayData, d => d.Gross);
+            d3.select("#avg-gross").text(`$${(avgGross / 1000000).toFixed(1)}M`);
+
+            // Update year range
+            let minYear = d3.min(vis.displayData, d => d.Released_Year);
+            let maxYear = d3.max(vis.displayData, d => d.Released_Year);
+            d3.select("#year-range").text(`${minYear}-${maxYear}`);
+        } else {
+            d3.select("#avg-gross").text("$0M");
+            d3.select("#year-range").text("-");
+        }
     }
 
     updateVis() {

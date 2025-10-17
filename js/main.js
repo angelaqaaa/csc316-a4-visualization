@@ -44,6 +44,25 @@ function loadData() {
             myChart.updateYearRange(yearRange);
         });
 
+        // Setup reset button
+        d3.select("#reset-filters").on("click", function() {
+            // Reset genre selection to all
+            myChart.selectedGenres.clear();
+            myChart.genres.forEach(genre => myChart.selectedGenres.add(genre));
+
+            // Update dropdown UI
+            d3.select("#select-all").property("checked", true);
+            d3.selectAll("#genre-dropdown input[type='checkbox']").property("checked", true);
+            d3.select("#dropdown-text").text("Movie Genres");
+
+            // Reset timeline brush
+            myTimeline.brushGroup.call(myTimeline.brush.move, null);
+            myChart.yearRange = null;
+
+            // Update chart
+            myChart.wrangleData();
+        });
+
     }).catch(error => {
         console.error("Error loading data:", error);
     })
