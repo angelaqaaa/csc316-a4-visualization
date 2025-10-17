@@ -267,7 +267,7 @@
   
   /* ===== Tooltip ===== */
   .tooltip {
-    position: absolute;
+    position: fixed;
     background-color: #303030;
     color: #fff;
     padding: 10px 14px;

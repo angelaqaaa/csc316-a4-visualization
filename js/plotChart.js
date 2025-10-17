@@ -282,7 +282,8 @@ class plotChart {
         // Merge and update - interrupt ongoing transitions before updating
         enterCircles.merge(circles)
             .on("mouseover", function (event, d) {
-                d3.select("#tooltip")
+                const tooltip = d3.select("#tooltip");
+                tooltip
                     .classed("visible", true)
                     .html(`
                         <div class="tooltip-content">
@@ -301,9 +302,33 @@ class plotChart {
                                      class="poster-image">
                             </div>
                         </div>
-                    `)
-                    .style("left", (event.pageX + 15) + "px")
-                    .style("top", (event.pageY - 28) + "px");
+                    `);
+
+                // Smart positioning to keep tooltip within viewport
+                const tooltipNode = tooltip.node();
+                const tooltipRect = tooltipNode.getBoundingClientRect();
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+
+                let left = event.pageX + 15;
+                let top = event.pageY - 28;
+
+                // Adjust horizontal position if tooltip would go off screen
+                if (left + tooltipRect.width > viewportWidth) {
+                    left = event.pageX - tooltipRect.width - 15;
+                }
+
+                // Adjust vertical position if tooltip would go off screen
+                if (top < 0) {
+                    top = event.pageY + 15;
+                }
+                if (top + tooltipRect.height > viewportHeight) {
+                    top = viewportHeight - tooltipRect.height - 15;
+                }
+
+                tooltip
+                    .style("left", left + "px")
+                    .style("top", top + "px");
 
                 d3.select(this)
                     .transition()
