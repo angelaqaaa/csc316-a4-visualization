@@ -52,6 +52,7 @@
     letter-spacing: -0.5px;
     margin-bottom: 8px;
     color: #e50914;
+    line-height: 1.3;
   }
 
   .subtitle {
@@ -159,11 +160,21 @@
     cursor: pointer;
     transition: color 0.2s ease;
   }
-  
+
+  .genre-count-badge {
+    color: #888;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
   .form-check:hover .form-check-label {
     color: #e50914;
   }
-  
+
+  .form-check:hover .genre-count-badge {
+    color: #aaa;
+  }
+
   .form-check:hover .form-check-input:not(:checked) {
     border-color: #e50914;
   }
@@ -215,6 +226,118 @@
     font-size: 15px;
     color: #e50914;
     font-weight: 600;
+  }
+
+  /* ===== Featured Movies ===== */
+  .featured-movies {
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 15px;
+  }
+
+  .featured-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #e50914;
+    margin: 0 0 15px 0;
+    text-align: center;
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+
+  .featured-card {
+    background-color: #111;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .featured-card:hover {
+    border-color: #e50914;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(229, 9, 20, 0.2);
+  }
+
+  .featured-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+  }
+
+  .featured-label {
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .featured-sublabel {
+    font-size: 10px;
+    color: #666;
+    font-weight: 400;
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+
+  .featured-movie-title {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 5px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .featured-value {
+    font-size: 13px;
+    color: #e50914;
+    font-weight: 500;
+  }
+
+  /* ===== Loading Indicator ===== */
+  .loading-indicator {
+    background-color: #111;
+    border-radius: 8px;
+    padding: 60px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+  }
+
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #333;
+    border-top-color: #e50914;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loading-indicator p {
+    color: #aaa;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
   }
 
   /* ===== Visualization Section ===== */
@@ -351,7 +474,21 @@
     stroke-width: 3px;
     opacity: 0.9;
   }
-  
+
+  /* ===== Annotations ===== */
+  .annotation-group {
+    pointer-events: none;
+  }
+
+  .annotation-label {
+    font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  .annotation-line {
+    pointer-events: none;
+  }
+
   /* ===== Tooltip ===== */
   .tooltip {
     position: fixed;
@@ -417,6 +554,11 @@
     margin: 5px 0;
   }
 
+  .inspiration-text {
+    font-style: italic;
+    color: #777;
+  }
+
   .data-source a {
     color: #e50914;
     text-decoration: none;
@@ -432,80 +574,85 @@
     .container {
       padding: 5px;
     }
-    
+
     .header-section {
       flex-direction: column;
       align-items: flex-start;
       gap: 10px;
     }
-    
+
     .title {
-      font-size: 20px;
+      font-size: 24px;
     }
-    
+
     .dropdown .btn {
       width: 250px;
     }
   }
-  
+
   @media (max-width: 768px) {
     body {
       padding: 5px;
     }
-    
+
     .container {
       padding: 5px;
     }
-    
+
     .header-section {
       flex-direction: column;
       align-items: flex-start;
       gap: 10px;
       margin-bottom: 10px;
     }
-    
+
     .title {
-      font-size: 18px;
+      font-size: 20px;
     }
-    
+
     .dropdown .btn {
       width: 200px;
     }
-    
+
+    .featured-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
     .visualization-section {
       padding: 10px;
     }
-    
+
     .slider-section {
       height: 140px;
     }
-    
+
     #slider-chart {
       height: 130px;
     }
-    
+
     #main-chart {
       min-height: 300px;
     }
   }
-  
+
   @media (max-width: 480px) {
     .title {
-      font-size: 16px;
+      font-size: 18px;
     }
-    
+
     .dropdown .btn {
       width: 180px;
     }
-    
+
     .slider-section {
       height: 120px;
     }
-    
+
     #slider-chart {
       height: 110px;
     }
-    
+
     #main-chart {
       min-height: 250px;
     }

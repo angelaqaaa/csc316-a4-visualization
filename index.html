@@ -42,13 +42,13 @@
             </div>
             <div class="title-section">
                 <h1 class="title">What Makes Movies Commercially Successful?</h1>
-                <p class="subtitle">Exploring IMDB's Top 1000: Revenue, Ratings & Trends Across Decades</p>
+                <p class="subtitle">Exploring Revenue, Ratings, and Genre Trends Across Decades (IMDB Top 1000)</p>
             </div>
         </div>
 
         <!-- Instructions -->
         <div class="instructions">
-            <p><strong>How to explore:</strong> Select genres from dropdown • Drag on timeline to filter years • Hover over dots for movie details</p>
+            <p><strong>How to explore:</strong> Select genres from dropdown • Drag on timeline to filter years • Double-click timeline to reset year filter • Hover over dots for movie details</p>
         </div>
 
         <!-- Statistics Panel -->
@@ -67,16 +67,46 @@
             </div>
         </div>
 
-        <!-- -->   
-       
+        <!-- Loading Indicator -->
+        <div id="loading-indicator" class="loading-indicator">
+            <div class="loading-spinner"></div>
+            <p>Loading movie data...</p>
+        </div>
+
         <!-- Main Visualization: visualization, slider chart -->
-        <div class="visualization-section">
+        <div id="visualization-content" class="visualization-section" style="display: none;">
             <div class="slider-section">
                 <svg id="slider-chart"></svg>
             </div>
-            
+
             <div class="main-chart-section">
                 <svg id="main-chart"></svg>
+            </div>
+        </div>
+
+        <!-- Featured Movies Section -->
+        <div id="featured-movies" class="featured-movies" style="display: none;">
+            <h3 class="featured-title">📊 Featured Movies in Current Selection</h3>
+            <div class="featured-grid">
+                <div class="featured-card">
+                    <div class="featured-icon">🏆</div>
+                    <div class="featured-label">Highest Grossing</div>
+                    <div id="highest-grossing-title" class="featured-movie-title">-</div>
+                    <div id="highest-grossing-value" class="featured-value">-</div>
+                </div>
+                <div class="featured-card">
+                    <div class="featured-icon">⭐</div>
+                    <div class="featured-label">Highest Rated</div>
+                    <div id="highest-rated-title" class="featured-movie-title">-</div>
+                    <div id="highest-rated-value" class="featured-value">-</div>
+                </div>
+                <div class="featured-card">
+                    <div class="featured-icon">💎</div>
+                    <div class="featured-label">Underrated Gem</div>
+                    <div class="featured-sublabel">High Rating, Lower Revenue</div>
+                    <div id="hidden-gem-title" class="featured-movie-title">-</div>
+                    <div id="hidden-gem-value" class="featured-value">-</div>
+                </div>
             </div>
         </div>
     </div>

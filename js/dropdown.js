@@ -13,7 +13,22 @@ class DropdownMenu {
         let dropdown = d3.select("#genre-dropdown");
         let dropdownText = d3.select("#dropdown-text");
 
-        // Add genre options
+        // Calculate movie count per genre
+        let genreCounts = {};
+        vis.genres.forEach(genre => genreCounts[genre] = 0);
+
+        vis.data.forEach(d => {
+            if (d.Genre) {
+                d.Genre.split(',').forEach(g => {
+                    let genre = g.trim();
+                    if (genreCounts[genre] !== undefined) {
+                        genreCounts[genre]++;
+                    }
+                });
+            }
+        });
+
+        // Add genre options with counts
         vis.genres.forEach(genre => {
             let listItem = dropdown.append("li");
             let option = listItem.append("div")
@@ -32,10 +47,18 @@ class DropdownMenu {
                     vis.updateGenreSelection();
                 });
 
-            formCheck.append("label")
+            // Add label with count badge
+            let label = formCheck.append("label")
                 .attr("class", "form-check-label")
-                .attr("for", `genre-${genre.replace(/\s+/g, '-')}`)
+                .attr("for", `genre-${genre.replace(/\s+/g, '-')}`);
+
+            label.append("span")
+                .attr("class", "genre-name")
                 .text(genre);
+
+            label.append("span")
+                .attr("class", "genre-count-badge")
+                .text(` (${genreCounts[genre]})`);
         });
 
         // "Select All" functionality
