@@ -109,6 +109,14 @@ class Timeline {
         vis.brushGroup = vis.svg.append("g")
             .attr("class", "brush");
 
+        // Add double-click to reset brush selection
+        vis.svg.on("dblclick", function() {
+            vis.brushGroup.call(vis.brush.move, null);
+            if (vis.onBrush) {
+                vis.onBrush(null);
+            }
+        });
+
         // Initial data processing
         vis.wrangleData();
 

@@ -35,6 +35,10 @@ function loadData() {
 
         console.log("Data loaded:", data.length, "movies with valid gross data");
 
+        // Hide loading indicator and show visualization
+        d3.select("#loading-indicator").style("display", "none");
+        d3.select("#visualization-content").style("display", "flex");
+
         // Create main visualization
         myChart = new plotChart(null, data);
 
