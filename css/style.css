@@ -413,6 +413,12 @@
     stroke: #444444;
   }
 
+  .legend text {
+    fill: #cccccc;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
   /* Netflix Red Elements */
   .netflix-red {
     fill: #e50914;
@@ -485,7 +491,7 @@
 
   /* ===== Tooltip ===== */
   .tooltip {
-    position: absolute;
+    position: fixed;
     background-color: #303030;
     color: #fff;
     padding: 10px 14px;

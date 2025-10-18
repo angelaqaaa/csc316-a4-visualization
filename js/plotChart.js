@@ -148,6 +148,38 @@ class plotChart {
             .style("font-weight", "500")
             .style("fill", "#cccccc")
             .text("Gross Revenue");
+
+        // ===== Add Color Legend =====
+        // Legend position: top right of y-axis
+        const legendSpacing = 28;
+
+        const legendData = [
+            { color: "#ff2919ff", label: "High (≥8) IMDB Rating" },
+            { color: "#ffb81eff", label: "Low (<8) IMDB Rating" }
+        ];
+
+        const legend = vis.svg.append("g")
+            .attr("class", "legend")
+            .attr("transform", `translate(80,0)`);
+
+        legend.selectAll("circle")
+            .data(legendData)
+            .enter()
+            .append("circle")
+            .attr("cx", 0)
+            .attr("cy", (d, i) => i * legendSpacing)
+            .attr("r", 6)
+            .attr("fill", d => d.color)
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 1.5);
+
+        legend.selectAll("text")
+            .data(legendData)
+            .enter()
+            .append("text")
+            .attr("x", 12)
+            .attr("y", (d, i) => i * legendSpacing + 4)
+            .text(d => d.label);
     }
 
 
@@ -319,7 +351,7 @@ class plotChart {
         // Merge and update - interrupt ongoing transitions before updating
         enterCircles.merge(circles)
             .on("mouseover", function (event, d) {
-                // Build tooltip content
+                // Build tooltip content with enhanced metadata
                 let tooltipContent = `
                     <div class="tooltip-content">
                         <div class="movie-info">
@@ -350,11 +382,37 @@ class plotChart {
                         </div>
                     </div>`;
 
-                d3.select("#tooltip")
+                // Show tooltip with content
+                const tooltip = d3.select("#tooltip");
+                tooltip
                     .classed("visible", true)
-                    .html(tooltipContent)
-                    .style("left", (event.pageX + 15) + "px")
-                    .style("top", (event.pageY - 28) + "px");
+                    .html(tooltipContent);
+
+                // Smart positioning to keep tooltip within viewport
+                const tooltipNode = tooltip.node();
+                const tooltipRect = tooltipNode.getBoundingClientRect();
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+
+                let left = event.pageX + 15;
+                let top = event.pageY - 28;
+
+                // Adjust horizontal position if tooltip would go off screen
+                if (left + tooltipRect.width > viewportWidth) {
+                    left = event.pageX - tooltipRect.width - 15;
+                }
+
+                // Adjust vertical position if tooltip would go off screen
+                if (top < 0) {
+                    top = event.pageY + 15;
+                }
+                if (top + tooltipRect.height > viewportHeight) {
+                    top = viewportHeight - tooltipRect.height - 15;
+                }
+
+                tooltip
+                    .style("left", left + "px")
+                    .style("top", top + "px");
 
                 d3.select(this)
                     .transition()
