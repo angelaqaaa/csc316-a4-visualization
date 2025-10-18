@@ -5,7 +5,7 @@ loadData();
 
 function loadData() {
     // Load data asynchronously
-    d3.csv("imdb_top_1000.csv").then(data => {
+    d3.csv("data/imdb_top_1000.csv").then(data => {
 
         // Data processing: convert strings to numbers
         data = data.map(d => {
@@ -35,6 +35,10 @@ function loadData() {
 
         console.log("Data loaded:", data.length, "movies with valid gross data");
 
+        // Hide loading indicator and show visualization
+        d3.select("#loading-indicator").style("display", "none");
+        d3.select("#visualization-content").style("display", "flex");
+
         // Create main visualization
         myChart = new plotChart(null, data);
 
@@ -42,6 +46,25 @@ function loadData() {
         myTimeline = new Timeline("slider-chart", data, function (yearRange) {
             // Callback function: when brush changes, update the main chart
             myChart.updateYearRange(yearRange);
+        });
+
+        // Setup reset button
+        d3.select("#reset-filters").on("click", function() {
+            // Reset genre selection to all
+            myChart.selectedGenres.clear();
+            myChart.genres.forEach(genre => myChart.selectedGenres.add(genre));
+
+            // Update dropdown UI
+            d3.select("#select-all").property("checked", true);
+            d3.selectAll("#genre-dropdown input[type='checkbox']").property("checked", true);
+            d3.select("#dropdown-text").text("Movie Genres");
+
+            // Reset timeline brush
+            myTimeline.brushGroup.call(myTimeline.brush.move, null);
+            myChart.yearRange = null;
+
+            // Update chart
+            myChart.wrangleData();
         });
 
     }).catch(error => {
