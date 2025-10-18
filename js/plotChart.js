@@ -523,11 +523,11 @@ class plotChart {
             }
 
             // Determine horizontal position and alignment
-            if (x - actualWidth/2 < 5) {
+            if (x - actualWidth / 2 < 5) {
                 // Too close to left edge - align left
                 textAnchor = "start";
                 labelX = 5;
-            } else if (x + actualWidth/2 > vis.width - 5) {
+            } else if (x + actualWidth / 2 > vis.width - 5) {
                 // Too close to right edge - align right
                 textAnchor = "end";
                 labelX = vis.width - 5;
@@ -649,11 +649,11 @@ class plotChart {
                 }
 
                 // Determine horizontal position and alignment
-                if (x - actualWidth/2 < 5) {
+                if (x - actualWidth / 2 < 5) {
                     // Too close to left edge - align left
                     textAnchor = "start";
                     labelX = 5;
-                } else if (x + actualWidth/2 > vis.width - 5) {
+                } else if (x + actualWidth / 2 > vis.width - 5) {
                     // Too close to right edge - align right
                     textAnchor = "end";
                     labelX = vis.width - 5;
